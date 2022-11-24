@@ -1,0 +1,28 @@
+type Kategori {
+    name: String!
+    description:String
+}
+
+type Ressurs {
+    title: String!
+    type: String!
+
+    website: website @relation
+    picture: Picture @relation
+    video: Video @relation
+}
+
+type Website {
+    url: String!
+    name: String!
+}
+
+type Picture {
+    url: String!
+    description:String
+}
+
+type Video {
+    url: String!
+    title: String
+}
