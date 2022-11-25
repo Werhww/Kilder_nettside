@@ -2,10 +2,11 @@
 const express = require('express');
 const { Add } = require('faunadb');
 const app = express()
-const port = 3000
+const port = 3030
 
 const { createResource } = require('./DBFunctions')
 const { createCategory } = require('./DBFunctions')
+const { getAllCategorys } = require('./DBFunctions')
 
 
 app.use(express.json());
@@ -15,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/adduser', (req, res) => {
-    
+  res(getAllCategorys())
 })
 
 app.post('/createCategory', (req, res) => {

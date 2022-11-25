@@ -1,23 +1,41 @@
 .item{
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
 
-    border-bottom: 1px dotted black;
+    padding-top: 1rem;
 
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    width: 100%;
 
-
+    margin-left: 10.2rem;
 }
 
-.item:hover{
+.mainContent{
+    display: flex;
+}
+
+.content {
+    display: flex;
+
+    width: 80%;
+
+    border-bottom: 1px dotted black;
+}
+
+.content:hover, .arrow:hover{
     cursor: pointer;
 }
 
+.titleItem{
+    width: 30%;
+}
 
-.item p{
-    margin: 0;
+.videoItem, .websiteItem{
+    width: 35%;
+}
 
-    margin-left: 1rem;
-    margin-right: 1rem;
+.allItemInfo{
+    display: none;
+
+    width: 80%;
+    padding-top: 0.3rem;
 }

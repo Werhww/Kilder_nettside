@@ -5,7 +5,6 @@ var client = new faunadb.Client({ secret: 'fnAE2Oc5SvACTMt3wWZ80CkLo4uu5-AZXW9sZ
 
 async function createResource(data) {
 
-
     const categoryRef = data.categoryRef
     const resourceType = data.resourceType
 
@@ -84,5 +83,17 @@ async function createCategory(data){
     )
 }
 
+async function getAllCategorys(){
+    var getAllCategorys = await client.query(
+        q.Get(
+            q.Index("all_category")
+        )
+    )
+
+    console.log(getAllCategorys)
+}
+
+
 module.exports.createResource = createResource
 module.exports.createCategory = createCategory
+module.exports.getAllCategorys = getAllCategorys

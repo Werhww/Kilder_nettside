@@ -7,16 +7,34 @@
 
     align-items: center;
 
-    width: 25rem;
+    width: 50rem;
+
+    padding: 0.5rem;
+    padding-top: 1rem;
 }
 
 .top {
     display: flex;
     gap: 2rem;
 
-    padding-top: 1rem;
     padding-bottom: 0.1rem;
     width: 85%;
 
     border-bottom: 2px dashed black;
+}
+
+.info{
+    display: flex;
+    justify-content: space-between;
+
+    width: 80%;
+    padding-top: 0.3rem;
+}
+
+.titleInfo{
+    width: 30%;
+}
+
+.videoInfo, .websiteInfo{
+    width: 35%;
 }

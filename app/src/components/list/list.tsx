@@ -28,6 +28,11 @@ export default function recentList({children}:props) {
                     })}
                 </Select>
             </div>
+            <div class={style.info}>
+                <p class={style.titleInfo}>Title</p>
+                <p class={style.websiteInfo}>Website</p>
+                <p class={style.videoInfo}>Video</p>
+            </div>
             {children}
         </div>
     )
