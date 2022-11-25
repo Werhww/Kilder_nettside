@@ -1,3 +1,4 @@
+const { values } = require('faunadb')
 var faunadb = require('faunadb')
 q = faunadb.query
 

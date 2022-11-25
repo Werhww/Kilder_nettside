@@ -1,10 +1,1 @@
-CreateIndex(
-  {
-    name: 'all_category',
-    source: Collection('Category'),
-    Values: [
-      { field: ['data', 'name'] },
-      { field: ['ref'] },
-    ],
-  },
-)
+Paginate(Match(Index('all_category')))
