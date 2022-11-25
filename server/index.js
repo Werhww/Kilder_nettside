@@ -1,11 +1,33 @@
-var http = require('http'); // 1 - Import Node.js core module
+// Server stuff
+const express = require('express');
+const { Add } = require('faunadb');
+const app = express()
+const port = 3000
 
-var server = http.createServer(function (req, res) {   // 2 - creating server
+const { createResource } = require('./DBFunctions')
+const { createCategory } = require('./DBFunctions')
 
-    //handle incomming requests here..
 
-});
+app.use(express.json());
 
-server.listen(5000); //3 - listen for any incoming requests
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
 
-console.log('Node.js web server at port 5000 is running..')
+app.get('/adduser', (req, res) => {
+    
+})
+
+app.post('/createCategory', (req, res) => {
+  createCategory(req.body)
+  res.json()
+})
+
+app.post('/createResource', (req, res) => {
+  createResource(req.body)
+  res.json()
+})
+
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`)
+})

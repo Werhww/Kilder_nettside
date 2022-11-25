@@ -1,0 +1,10 @@
+CreateIndex({
+  name: "only_one_Website_per_resource",
+  source: [
+    Collection("Website")
+  ],
+  terms: [
+    {field: ["data", "resourceRef"]}
+  ],
+  unique: true
+})
