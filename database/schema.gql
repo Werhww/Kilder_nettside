@@ -1,28 +1,38 @@
 type Kategori {
     name: String!
     description:String
+
+    ressurs: [Ressurs] @relation
 }
 
 type Ressurs {
     title: String!
     type: String!
 
-    website: website @relation
-    picture: Picture @relation
-    video: Video @relation
+    website: Website
+    picture: Picture
+    video: Video
+
+    kategori: Kategori
 }
 
 type Website {
     url: String!
     name: String!
+
+    ressurs:Ressurs
 }
 
 type Picture {
     url: String!
     description:String
+
+    ressurs:Ressurs
 }
 
 type Video {
     url: String!
     title: String
+
+    ressurs:Ressurs
 }

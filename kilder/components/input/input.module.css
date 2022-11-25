@@ -1,0 +1,53 @@
+.input{
+    font-size: 1rem;
+    color: #cccccc;
+
+    height: 2rem;
+    border: none;
+
+    text-align: center;
+}
+
+.input:focus{
+    color: #656565;
+
+    outline: none;
+}
+
+
+/* Chrome, Firefox, Opera, Safari 10.1+ */
+.input::placeholder{
+    color: #cccccc;
+
+    opacity: 1; /* Firefox */
+}
+
+/* Internet Explorer 10-11, Microsoft Edge */
+.input:-ms-input-placeholder,  .input::-ms-input-placeholder{
+    color: #cccccc;
+}
+
+
+/* Chrome, Safari, Edge, Opera */
+.input::-webkit-outer-spin-button, .input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.input[type=number] {
+  -moz-appearance: textfield;
+  appearance: none;
+}
+
+
+.underline{
+    height: 0px;
+    border: 2px solid #cccccc;
+    border-radius: 125rem;
+}
+
+.input:focus + .underline{
+    border: 2px solid #656565;
+}
