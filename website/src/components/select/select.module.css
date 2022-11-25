@@ -1,0 +1,10 @@
+.select{
+    font-size: 1rem;
+    border: 1px solid white;
+    outline: white solid 1px;
+}
+
+.select:focus{
+    border: 1px solid white;
+    outline: white solid 1px;
+}

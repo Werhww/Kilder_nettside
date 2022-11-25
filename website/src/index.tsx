@@ -4,8 +4,8 @@ import { router } from '@klevn/solid-router';
 import './index.css';
 
 /* Page Imports */
-import Resources from '../pages/resources/resources';
-import AddResources from '../pages/addResources/addResources'
+import Resources from './pages/resources/resources';
+import AddResources from './pages/addResources/addResources'
 
 router.add("/", () => {
     console.log("fie")

@@ -1,4 +1,4 @@
-import style from './button.module.css'
+import style from './select.module.css'
 
 interface props {
     children:any, 
@@ -7,5 +7,5 @@ interface props {
 }
 
 export default function button({children,name, id}:props) {
-    return <select name={name} id={id}>{children}</select>
+    return <select class={style.select} name={name} id={id}>{children}</select>
 }

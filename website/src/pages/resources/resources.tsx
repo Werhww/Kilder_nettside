@@ -9,6 +9,8 @@ import Navlink from '../../components/navbar/navlink/navlink';
 //Footer imports
 import Footer from '../../components/footer/footer'
 
+// List
+import List from '../../components/list/list'
 
 
 export default function App() {
@@ -19,6 +21,7 @@ export default function App() {
         <Navlink active={false} link='/add'>Add Resource</Navlink>
       </Navbar>
 
+      <List> </List>
 
       <Footer iconLink='/'></Footer>
     </div>

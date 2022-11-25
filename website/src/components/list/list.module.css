@@ -10,36 +10,13 @@
     width: 25rem;
 }
 
-.title{
-    font-size: 1.5rem;
-    color: #656565;
-    padding-left: 0.5rem;
-
-    width: 88%;
-    margin-top: 1.25rem;
-    padding-bottom: 0.5rem;
-
-    border-bottom: 1px dashed #000000;
-}
-
-.content{
+.top {
     display: flex;
-    flex-direction: column;
-
-    width: 88%;
-
-    font-size: 1.25rem;
+    gap: 2rem;
 
     padding-top: 1rem;
-    padding-bottom: 2rem;
-}
+    padding-bottom: 0.1rem;
+    width: 85%;
 
-.listInfo{
-    display: flex;
-    justify-content: space-between;
-
-    font-weight: bold;
-
-    margin-left: 1rem;
-    margin-right: 1rem;
+    border-bottom: 2px dashed black;
 }
