@@ -85,8 +85,10 @@ async function createCategory(data){
 
 async function getAllCategorys(){
     var getAllCategorys = await client.query(
-        q.Get(
-            q.Index("all_category")
+        q.Paginate(
+            q.Match(
+                q.Index('all_category')
+            )
         )
     )
 

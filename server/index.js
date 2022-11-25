@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/adduser', (req, res) => {
-  res(getAllCategorys())
+  res.json(getAllCategorys())
 })
 
 app.post('/createCategory', (req, res) => {
