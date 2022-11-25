@@ -1,4 +1,4 @@
-import style from './recentListItem.module.css';
+import style from './listItem.module.css';
 
 
 interface props{
@@ -11,7 +11,7 @@ export default function recentListItem({children, carbs, onclick}:props) {
     return (
         <div class={style.item} onclick={onclick}>
             <p>{children}</p>
-            <p>{carbs + 'g'}</p>
+            <p>{carbs}</p>
         </div>
     )
 }
