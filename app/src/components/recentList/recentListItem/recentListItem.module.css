@@ -1,0 +1,23 @@
+.item{
+    display: flex;
+    justify-content: space-between;
+
+    border-bottom: 1px dotted black;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+
+
+}
+
+.item:hover{
+    cursor: pointer;
+}
+
+
+.item p{
+    margin: 0;
+
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
