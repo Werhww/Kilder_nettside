@@ -14,8 +14,10 @@ import List from '../../components/list/list'
 import ListItem from '../../components/list/listItem/listItem'
 
 
+
 export default function App() {
   
+  fetch
 
 
   return (

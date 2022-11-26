@@ -6,7 +6,7 @@ const port = 3030
 
 const { createResource } = require('./DBFunctions')
 const { createCategory } = require('./DBFunctions')
-const { getAllCategorys } = require('./DBFunctions')
+const { getAllCategories } = require('./DBFunctions')
 
 
 app.use(express.json());
@@ -15,11 +15,12 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/getAllCategorys', (req, res) => {
-  res.json(getAllCategorys())
+app.post('/getAllCategories', async (req, res) => {
+  const categoryData = await getAllCategories()
+  res.json(categoryData)
 })
 
-app.post('/createCategory', (req, res) => {
+app.post('/createCategories', (req, res) => {
   createCategory(req.body)
   res.json()
 })

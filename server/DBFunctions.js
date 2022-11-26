@@ -43,14 +43,14 @@ async function createResource(data) {
 
     function createVideo(){
         const videoUrl = data.videoUrl
-        const videoDescription = data.videoDescription
+        const videTitle = data.videTitle
         var createVideoRessurs = client.query(
         q.Create(
             q.Collection("Video"),
             {
             data: {
                 url: videoUrl,
-                description: videoDescription,
+                title: videTitle,
                 resourceRef: resourceRef,
             }
             }
@@ -84,34 +84,23 @@ async function createCategory(data){
     )
 }
 
-async function getAllCategorys(){
-    var getAllCategorys = await client.query(
-        q.Paginate(
-            q.Match(
-                q.Index('all_category')
-            )
+async function getAllCategories(){
+
+    var getAllCategoryData = await client.query(
+        q.Map(
+            q.Paginate(q.Match(q.Index("all_category"))),
+            q.Lambda("X", q.Get(q.Var("X")))
         )
     )
 
+    return getAllCategoryData
+}
 
+async function getResourceData(){
 
-
-    var getCategoryData = await client.query(
-        q.Get(
-            q.Ref(
-                q.Collection('Category'),
-                ` ${getAllCategorys.data[0]}`
-            ),
-        )
-    )
-
-
-    
-
-    console.log(getAllCategorys)
 }
 
 
 module.exports.createResource = createResource
 module.exports.createCategory = createCategory
-module.exports.getAllCategorys = getAllCategorys
+module.exports.getAllCategories = getAllCategories
