@@ -1,4 +1,4 @@
-const { values } = require('faunadb')
+const { values, Foreach } = require('faunadb')
 var faunadb = require('faunadb')
 q = faunadb.query
 
@@ -92,6 +92,21 @@ async function getAllCategorys(){
             )
         )
     )
+
+
+
+
+    var getCategoryData = await client.query(
+        q.Get(
+            q.Ref(
+                q.Collection('Category'),
+                ` ${getAllCategorys.data[0]}`
+            ),
+        )
+    )
+
+
+    
 
     console.log(getAllCategorys)
 }

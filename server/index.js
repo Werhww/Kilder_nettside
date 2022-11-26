@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
-app.get('/adduser', (req, res) => {
+app.get('/getAllCategorys', (req, res) => {
   res.json(getAllCategorys())
 })
 

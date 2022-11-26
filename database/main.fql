@@ -1,1 +1,12 @@
-Paginate(Match(Index('all_category')))
+Foreach(
+   Paginate(
+        Match(
+            Index('all_category')
+        ),  
+    )
+    Lambda(
+        'ref',
+        Get(Var('ref'))
+    )
+) 
+    
