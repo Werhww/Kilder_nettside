@@ -7,7 +7,9 @@ const port = 3030
 const { createResource } = require('./DBFunctions')
 const { createCategory } = require('./DBFunctions')
 const { getAllCategories } = require('./DBFunctions')
-const { getAllCategoryResources } = require('./DBFunctions')
+const { allResourceByCategoryRef } = require('./DBFunctions')
+const { deleteCategory } = require('./DBFunctions')
+const { deleteResource } = require('./DBFunctions')
 
 app.use(express.json());
 
@@ -21,8 +23,8 @@ app.post('/getAllCategories', async (req, res) => {
   res.json(categoryData)
 })
 
-app.post('/getAllCategoryResources', async (req, res) => {
-  const allResources = await getAllCategoryResources(req.body)
+app.post('/getAllResourceByCategoryRef', async (req, res) => {
+  const allResources = await allResourceByCategoryRef(req.body)
   res.json(allResources)
 })
 
@@ -33,6 +35,16 @@ app.post('/createCategories', (req, res) => {
 
 app.post('/createResource', (req, res) => {
   createResource(req.body)
+  res.json()
+})
+
+app.post('/deleteCategory', (req, res) => {
+  deleteCategory(req.body)
+  res.json()
+})
+
+app.post('/deleteResource', (req, res) => {
+  deleteResource(req.body)
   res.json()
 })
 

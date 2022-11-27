@@ -19,7 +19,6 @@ async function createCategory(data){
     )
 }
 
-
 async function createResource(data) {
 
     const categoryRef = data.categoryRef
@@ -33,7 +32,7 @@ async function createResource(data) {
                 data: {
                     title: title,
                     type: resourceType,
-                    categoryRef: q.Ref(q.Collection(categoryRef.collection), categoryRef.id),
+                    categoryRef: q.Ref(q.Collection('Category'), categoryRef),
                 }
             }
         )
@@ -60,14 +59,14 @@ async function createResource(data) {
 
     function createVideo(){
         const videoUrl = data.videoUrl
-        const videTitle = data.videTitle
+        const videoTitle = data.videoTitle
         var createVideoRessurs = client.query(
         q.Create(
             q.Collection("Video"),
             {
             data: {
                 url: videoUrl,
-                title: videTitle,
+                title: videoTitle,
                 resourceRef: resourceRef,
             }
             }
@@ -89,13 +88,13 @@ async function createResource(data) {
 async function getAllCategories(){
 
     var getAllCategoryData = await client.query(
-        q.Paginate(q.Match(q.Index("allCategorySORTED")))
+        q.Paginate(q.Match(q.Index("allCategoriesSORTED")))
     )
 
     return getAllCategoryData
 }
 
-async function getAllCategoryResources(data){
+async function allResourceByCategoryRef(data){
     const categoryRef = data.ref
     
     async function getResource(){
@@ -108,22 +107,19 @@ async function getAllCategoryResources(data){
             )
         )
         
-        
         const resourceData = resource.data
-        console.log(resourceData)
+        const allResourceData = []
 
-        allResourceData =  await resourceData.map(getResourceData)
-
-        console.log(allResourceData)
+        for(let i of resourceData){
+            allResourceData.push(await getResourceByData(i))
+        }
 
         return allResourceData
     }
     
-    async function getResourceData(resourceData){
-        const ref = resourceData[2]
-        const type = resourceData[1]
-
-        console.log(resourceData)
+    async function getResourceByData(data){
+        const ref = data[2]
+        const type = data[1]
 
         async function getWebsite(){
             var website = await client.query(
@@ -151,16 +147,15 @@ async function getAllCategoryResources(data){
             return video
         }
         
-        const data = resourceData
         const website = await getWebsite()
         const video = await getVideo()
     
         if(type === "website"){
-            return {data, data:{website}}
+            return {data, info:{website}}
         } else if (type === "video"){
-            return {data, data:{video}}
+            return {data, info:{video}}
         } else { 
-            return {data, data:{website, video}}
+            return {data, info:{website, video}}
         }
     
     } 
@@ -169,8 +164,139 @@ async function getAllCategoryResources(data){
     return getResource()
 }
 
+async function deleteCategory(data){
+
+    var categoryData = await client.query(
+        q.Paginate(
+            q.Match(
+                q.Index("deleteResourcesData"),
+                data.categoryRef
+            )
+        )
+    )
+
+    // Deletes Category
+    client.query(
+        q.Delete(q.Ref(q.Collection('Category'), data.categoryRef))
+    )
+
+    // Deletes website part of resource
+    async function deleteWebsite(ref){
+        var resourceData = await client.query(
+            q.Paginate(
+                q.Match(
+                    q.Index("deleteWebsiteData"),
+                    ref
+                )
+            )
+        )
+
+        client.query(
+            q.Delete(q.Ref(q.Collection('Website'), resourceData.data[0]))
+        )
+    }
+
+    // Deletes video part of resource
+    async function deleteVideo(ref){
+        var resourceData = await client.query(
+            q.Paginate(
+                q.Match(
+                    q.Index("deleteVideoData"),
+                    ref
+                )
+            )
+        )   
+
+        client.query(
+            q.Delete(q.Ref(q.Collection('Video'), resourceData.data[0]))
+        )
+    }
+
+    // Deletes resource
+    async function deleteResource(d){
+        let ref = d[1]
+
+
+        if(d[0] == "website"){
+            deleteWebsite(ref)
+        } else if (d[0] == "video"){
+            deleteVideo(ref)
+        } else {
+            deleteWebsite(ref)
+            deleteVideo(ref)
+        }
+
+        client.query(
+            q.Delete(q.Ref(q.Collection('Resource'), ref))
+        )
+    }
+
+
+    for(let i of categoryData.data){
+        deleteResource(i)
+    }
+}
+
+async function deleteResource(data){
+
+   // Deletes website part of resource
+   async function deleteWebsite(ref){
+        var resourceData = await client.query(
+            q.Paginate(
+                q.Match(
+                    q.Index("deleteWebsiteData"),
+                    ref
+                )
+            )
+        )
+
+        client.query(
+            q.Delete(q.Ref(q.Collection('Website'), resourceData.data[0]))
+        )
+    }
+
+    // Deletes video part of resource
+    async function deleteVideo(ref){
+        var resourceData = await client.query(
+            q.Paginate(
+                q.Match(
+                    q.Index("deleteVideoData"),
+                    ref
+                )
+            )
+        )   
+
+        client.query(
+            q.Delete(q.Ref(q.Collection('Video'), resourceData.data[0]))
+        )
+    }
+
+    // Deletes resource
+    async function deleteResource(d){
+        let ref = d.ref
+
+
+        if(d.type == "website"){
+            deleteWebsite(ref)
+        } else if (d.type == "video"){
+            deleteVideo(ref)
+        } else {
+            deleteWebsite(ref)
+            deleteVideo(ref)
+        }
+
+        client.query(
+            q.Delete(q.Ref(q.Collection('Resource'), ref))
+        )
+    }
+
+    deleteResource(data)
+}
+
 
 module.exports.createResource = createResource
 module.exports.createCategory = createCategory
 module.exports.getAllCategories = getAllCategories
-module.exports.getAllCategoryResources = getAllCategoryResources
+module.exports.allResourceByCategoryRef = allResourceByCategoryRef
+module.exports.deleteCategory = deleteCategory
+module.exports.deleteResource = deleteResource
