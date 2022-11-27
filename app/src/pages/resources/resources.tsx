@@ -16,8 +16,9 @@ import ListItem from '../../components/list/listItem/listItem'
 
 
 export default function App() {
-  
-  fetch
+  let selectData:any
+
+  selectData = fetch('http://localhost:3030/getAllCategories')
 
 
   return (
@@ -27,7 +28,7 @@ export default function App() {
         <Navlink active={false} link='/add'>Add Resource</Navlink>
       </Navbar>
 
-      <List>
+      <List selectData={selectData}>
         <ListItem title='leo' website='lkleppe.com' websiteURL='124' video='zonewarz.com' videoURL='124'></ListItem>
         <ListItem title='leo' website='lkleppe.com' websiteURL='124' video='zonewarz.com' videoURL='124'></ListItem>
       </List>

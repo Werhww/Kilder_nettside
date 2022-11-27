@@ -97,8 +97,6 @@ async function getAllCategories(){
 
 async function getAllCategoryResources(data){
     const categoryRef = data.ref
-    let ref = ""
-    let type
     
     async function getResource(){
         var resource = await client.query(
@@ -109,58 +107,66 @@ async function getAllCategoryResources(data){
                 )
             )
         )
-        /* lag noe som legger inn denne dataen og daten som blir lagt til nedenfor inn i et object lignene til neddene */
-        console.log(resource)
-        return resource
+        
+        
+        const resourceData = resource.data
+        console.log(resourceData)
+
+        allResourceData =  await resourceData.map(getResourceData)
+
+        console.log(allResourceData)
+
+        return allResourceData
     }
     
+    async function getResourceData(resourceData){
+        const ref = resourceData[2]
+        const type = resourceData[1]
 
-    
-    async function getWebsite(){
-        var website = await client.query(
-            q.Paginate(
-                q.Match(
-                  q.Index('websiteByResourceRefSORTED'),
-                  q.Ref(q.Collection("Resource"), ref)
+        console.log(resourceData)
+
+        async function getWebsite(){
+            var website = await client.query(
+                q.Paginate(
+                    q.Match(
+                      q.Index('websiteByResourceRefSORTED'),
+                      q.Ref(q.Collection("Resource"), ref)
+                    )
                 )
             )
-        )
-
-        return website
-    }
     
-
-
-    async function getVideo(){
-        var video = await client.query(
-            q.Paginate(
-                q.Match(
-                  q.Index('videoByResourceRefSORTED'),
-                  q.Ref(q.Collection("Resource"), ref)
+            return website
+        }
+        
+        async function getVideo(){
+            var video = await client.query(
+                q.Paginate(
+                    q.Match(
+                      q.Index('videoByResourceRefSORTED'),
+                      q.Ref(q.Collection("Resource"), ref)
+                    )
                 )
             )
-        )
-
-        return video
-    }
+    
+            return video
+        }
+        
+        const data = resourceData
+        const website = await getWebsite()
+        const video = await getVideo()
+    
+        if(type === "website"){
+            return {data, data:{website}}
+        } else if (type === "video"){
+            return {data, data:{video}}
+        } else { 
+            return {data, data:{website, video}}
+        }
+    
+    } 
 
     
-    return await getResource()
-    /*
-    const resource = await getResource()
-    
-    const website = await getWebsite()
-    const video = await getVideo()
-
-    if(type === "website"){
-        return {resource, data:{website}}
-    } else if (type === "video"){
-        return {resource, data:{video}}
-    } else {
-        return {resource, data:{website, video}}
-    }
-
-    */
+    return getResource()
 }
 
 

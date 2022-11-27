@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
 
 app.post('/getAllCategories', async (req, res) => {
   const categoryData = await getAllCategories()
+  console.log("good")
   res.json(categoryData)
 })
 

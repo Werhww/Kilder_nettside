@@ -7,24 +7,17 @@ import SelectItem from '../select/selectItem/selectItem'
 
 interface props{
     children:any
+    selectData:string[]
 }
 
-export default function recentList({children}:props) {
-    const items = [
-        {
-            name: "hello"
-        }, 
-        {
-            name: "world"
-        }
-    ]
+export default function recentList({children, selectData}:props) {
     return (
         <div class={style.list}>
             <div class={style.top}>
                 <p>Category</p>
                 <Select name='category' id='category'>
-                    {items.map((item) => {
-                        return <SelectItem value={item.name}>{item.name}</SelectItem>
+                    {selectData.map((item) => {
+                        return <SelectItem value={item[1]}>{item[0]}</SelectItem>
                     })}
                 </Select>
             </div>
