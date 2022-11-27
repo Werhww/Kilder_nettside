@@ -1,4 +1,0 @@
-Map(
-  Paginate(Match(Index("all_category"))),
-  Lambda("X", Get(Var("X")))
-)
