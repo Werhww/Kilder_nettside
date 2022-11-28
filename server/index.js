@@ -1,17 +1,20 @@
 // Server stuff
-const express = require('express');
-const { Add } = require('faunadb');
+const express = require('express')
+const cors = require('cors')
 const app = express()
 const port = 3030
 
-const { createResource } = require('./DBFunctions')
-const { createCategory } = require('./DBFunctions')
-const { getAllCategories } = require('./DBFunctions')
-const { allResourceByCategoryRef } = require('./DBFunctions')
-const { deleteCategory } = require('./DBFunctions')
-const { deleteResource } = require('./DBFunctions')
+const { 
+  createResource,
+  createCategory, 
+  getAllCategories, 
+  allResourceByCategoryRef, 
+  deleteCategory, 
+  deleteResource 
+} = require('./DBFunctions')
 
 app.use(express.json());
+app.use(cors())
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
@@ -19,7 +22,6 @@ app.get('/', (req, res) => {
 
 app.post('/getAllCategories', async (req, res) => {
   const categoryData = await getAllCategories()
-  console.log("good")
   res.json(categoryData)
 })
 

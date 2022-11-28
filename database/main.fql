@@ -1,0 +1,3 @@
+Exists(
+    Ref(Collection('Category'), '349558662824460875')
+)

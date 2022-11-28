@@ -21,6 +21,7 @@ export default async function App() {
   })
 
   let selectDataJson = await selectData.json()
+  console.log(selectDataJson)
 
 
   return (

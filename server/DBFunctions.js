@@ -166,78 +166,110 @@ async function allResourceByCategoryRef(data){
 
 async function deleteCategory(data){
 
-    var categoryData = await client.query(
-        q.Paginate(
-            q.Match(
-                q.Index("deleteResourcesData"),
-                data.categoryRef
-            )
+    var categoryCheck = client.query(
+        q.Exists(
+            q.Ref(q.Collection('Category'),
+            data.categoryRef
+          )
         )
     )
 
-    // Deletes Category
-    client.query(
-        q.Delete(q.Ref(q.Collection('Category'), data.categoryRef))
-    )
+    if(categoryCheck == true){
+        deleting(data)
+    }
 
-    // Deletes website part of resource
-    async function deleteWebsite(ref){
-        var resourceData = await client.query(
+
+    async function deleting(data){
+        var categoryData = await client.query(
             q.Paginate(
                 q.Match(
-                    q.Index("deleteWebsiteData"),
-                    ref
+                    q.Index("deleteResourcesData"),
+                    data.categoryRef
                 )
             )
         )
-
+    
+        // Deletes Category
         client.query(
-            q.Delete(q.Ref(q.Collection('Website'), resourceData.data[0]))
+            q.Delete(q.Ref(q.Collection('Category'), data.categoryRef))
         )
-    }
-
-    // Deletes video part of resource
-    async function deleteVideo(ref){
-        var resourceData = await client.query(
-            q.Paginate(
-                q.Match(
-                    q.Index("deleteVideoData"),
-                    ref
+    
+        // Deletes website part of resource
+        async function deleteWebsite(ref){
+            var resourceData = await client.query(
+                q.Paginate(
+                    q.Match(
+                        q.Index("deleteWebsiteData"),
+                        ref
+                    )
                 )
             )
-        )   
-
-        client.query(
-            q.Delete(q.Ref(q.Collection('Video'), resourceData.data[0]))
-        )
-    }
-
-    // Deletes resource
-    async function deleteResource(d){
-        let ref = d[1]
-
-
-        if(d[0] == "website"){
-            deleteWebsite(ref)
-        } else if (d[0] == "video"){
-            deleteVideo(ref)
-        } else {
-            deleteWebsite(ref)
-            deleteVideo(ref)
+    
+            client.query(
+                q.Delete(q.Ref(q.Collection('Website'), resourceData.data[0]))
+            )
         }
-
-        client.query(
-            q.Delete(q.Ref(q.Collection('Resource'), ref))
-        )
+    
+        // Deletes video part of resource
+        async function deleteVideo(ref){
+            var resourceData = await client.query(
+                q.Paginate(
+                    q.Match(
+                        q.Index("deleteVideoData"),
+                        ref
+                    )
+                )
+            )   
+    
+            client.query(
+                q.Delete(q.Ref(q.Collection('Video'), resourceData.data[0]))
+            )
+        }
+    
+        // Deletes resource
+        async function deleteResource(d){
+            let ref = d[1]
+    
+    
+            if(d[0] == "website"){
+                deleteWebsite(ref)
+            } else if (d[0] == "video"){
+                deleteVideo(ref)
+            } else {
+                deleteWebsite(ref)
+                deleteVideo(ref)
+            }
+    
+            client.query(
+                q.Delete(q.Ref(q.Collection('Resource'), ref))
+            )
+        }
+    
+    
+        for(let i of categoryData.data){
+            deleteResource(i)
+        }
     }
 
-
-    for(let i of categoryData.data){
-        deleteResource(i)
-    }
+    
 }
 
 async function deleteResource(data){
+
+    var resourceCheck = client.query(
+        q.Exists(
+            q.Ref(q.Collection('Category'),
+            data.ref
+          )
+        )
+    )
+
+    if(resourceCheck == true){
+        deleteResource(data)
+    } else {
+
+    }
+
 
    // Deletes website part of resource
    async function deleteWebsite(ref){
@@ -289,8 +321,6 @@ async function deleteResource(data){
             q.Delete(q.Ref(q.Collection('Resource'), ref))
         )
     }
-
-    deleteResource(data)
 }
 
 
