@@ -11,6 +11,7 @@
 
     padding: 0.5rem;
     padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 .top {
@@ -37,4 +38,13 @@
 
 .videoInfo, .websiteInfo{
     width: 35%;
+}
+
+.OK{
+    filter: invert(60%) sepia(2%) saturate(0%) hue-rotate(37deg) brightness(103%) contrast(83%);
+}
+
+.OK:hover{
+    filter: invert(0%) sepia(0%) saturate(7480%) hue-rotate(107deg) brightness(98%) contrast(106%);
+    cursor: pointer;
 }

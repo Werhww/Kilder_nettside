@@ -2,10 +2,12 @@ import style from './select.module.css'
 
 interface props {
     children:any, 
-    name:string
-    id:string
+    ref:any
 }
 
-export default function button({children,name, id}:props) {
-    return <select class={style.select} name={name} id={id}>{children}</select>
+export default function button({children, ref}:props) {
+    return <select class={style.select} ref={ref}>
+        <option value="">Choose Category</option>
+        {children}
+        </select>
 }
