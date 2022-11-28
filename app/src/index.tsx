@@ -6,9 +6,9 @@ import './index.css';
 /* Page Imports */
 import Resources from './pages/resources/resources';
 import AddResources from './pages/addResources/addResources'
+import { lazy, Suspense } from "solid-js";
 
 router.add("/", () => {
-    console.log("fie")
     return <Resources></Resources>
 })
 
