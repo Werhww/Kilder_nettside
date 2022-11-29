@@ -1,12 +1,19 @@
 import style from './select.module.css'
 
 interface props {
-    children:any, 
-    ref:any
+    children:any
+    
 }
 
-export default function button({children, ref}:props) {
-    return <select class={style.select} ref={ref}>
+export default function button({children}:props) {
+    
+
+    return <select 
+                class={style.select}
+                onChange={(e)=>{
+                    console.log(e.currentTarget.value)
+                }}>
+        
         <option value="">Choose Category</option>
         {children}
         </select>

@@ -29,21 +29,11 @@ async function fetchCategories() {
 
 export default async function App() {
   const selectData = await fetchCategories()
-  let category:any
+  let select = {}
 
   async function fetchRecources(){
-    console.log(category)
+    console.log(select)
   }
-
-  const selectBody = (
-    <div>
-      <Select ref="category">
-        {selectData.map((item:string[]) => {
-            return <SelectItem value={item[1]}>{item[0]}</SelectItem>
-        })}
-      </Select>
-    </div>
-  )
                   
 
   return (
@@ -54,7 +44,7 @@ export default async function App() {
       </Navbar>
 
       <div class={style.list}>
-        <List chooseCategory={fetchRecources} select={selectBody}>
+        <List chooseCategory={fetchRecources} selectData={selectData} selectItem={select}>
           <ListItem title='leo' website='lkleppe.com' websiteURL='124' video='zonewarz.com' videoURL='124'></ListItem>
           <ListItem title='leo' website='lkleppe.com' websiteURL='124' video='zonewarz.com' videoURL='124'></ListItem>
         </List>
