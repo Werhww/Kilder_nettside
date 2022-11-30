@@ -96,6 +96,9 @@ async function getAllCategories(){
 
 async function allResourceByCategoryRef(data){
     const categoryRef = data.ref
+    if(categoryRef == ""){
+        return
+    }
     
     async function getResource(){
         var resource = await client.query(
@@ -151,9 +154,9 @@ async function allResourceByCategoryRef(data){
         const video = await getVideo()
     
         if(type === "website"){
-            return {data, info:{website}}
+            return {data, info:{website, "video": { "data": [["---", "---"]]}}}
         } else if (type === "video"){
-            return {data, info:{video}}
+            return {data, info:{video, "website": { "data": [["---", "---"]]}}}
         } else { 
             return {data, info:{website, video}}
         }
@@ -165,16 +168,15 @@ async function allResourceByCategoryRef(data){
 }
 
 async function deleteCategory(data){
-
-    var categoryCheck = client.query(
+    const categoryCheck = await client.query(
         q.Exists(
             q.Ref(q.Collection('Category'),
-            data.categoryRef
+            data.ref
           )
         )
     )
 
-    if(categoryCheck == true){
+    if(categoryCheck === true){
         deleting(data)
     }
 
@@ -184,14 +186,14 @@ async function deleteCategory(data){
             q.Paginate(
                 q.Match(
                     q.Index("deleteResourcesData"),
-                    data.categoryRef
+                    data.ref
                 )
             )
         )
     
         // Deletes Category
         client.query(
-            q.Delete(q.Ref(q.Collection('Category'), data.categoryRef))
+            q.Delete(q.Ref(q.Collection('Category'), data.ref))
         )
     
         // Deletes website part of resource
@@ -250,24 +252,19 @@ async function deleteCategory(data){
             deleteResource(i)
         }
     }
-
-    
 }
 
 async function deleteResource(data){
-
-    var resourceCheck = client.query(
+    const resourceCheck = await client.query(
         q.Exists(
-            q.Ref(q.Collection('Category'),
+            q.Ref(q.Collection('Resource'),
             data.ref
           )
         )
     )
 
-    if(resourceCheck == true){
+    if(resourceCheck === true){
         deleteResource(data)
-    } else {
-
     }
 
 

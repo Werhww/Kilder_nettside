@@ -10,25 +10,16 @@ interface props{
     children:any
     selectData:any
     chooseCategory: ()=>any
+    select: any
 
 }
 
-export default function recentList({children, selectData,chooseCategory}:props) {
-    let itemdata = selectData.data
-
-    let testref: string
-
-
+export default function recentList({children, selectData,chooseCategory, select}:props) {
     return (
         <div class={style.list}>
             <div class={style.top}>
                 <p>Category</p>
-                <Select>
-                    {itemdata.map((item:string[]) => {
-                        console.log(selectData)
-                        return <SelectItem value={item[1]}>{item[0]}</SelectItem>
-                    })}
-                </Select>
+                {select}
                 <img class={style.OK} src={OK} onclick={chooseCategory}/>
             </div>
             <div class={style.info}>
@@ -40,4 +31,3 @@ export default function recentList({children, selectData,chooseCategory}:props) 
         </div>
     )
 }
-  

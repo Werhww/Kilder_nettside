@@ -1,6 +1,5 @@
 /* @refresh reload */
 import { router } from '@klevn/solid-router';
-import { lazy, Suspense } from "solid-js";
 
 import './index.css';
 
