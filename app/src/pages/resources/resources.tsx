@@ -44,11 +44,9 @@ export default async function App() {
     },
     body: JSON.stringify(data)
     })
+    
     let listResources = await recources.json()
-    console.log(listResources)
     setList(listResources) 
-    console.log(listResources)
-    console.log(list())
   }
 
   return (

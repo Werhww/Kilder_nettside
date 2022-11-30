@@ -5,11 +5,11 @@ interface props{
     children:string
     inputType:string
     inputWidthRem:number
-    inputCb: (inputElement:any) => any
+    inputCallback: (inputElement:any) => any
     fontSizeRem:number
 }
 
-export default function input({children, inputType, inputWidthRem, inputCb, fontSizeRem}:props) {
+export default function input({children, inputType, inputWidthRem, inputCallback, fontSizeRem}:props) {
     let inputElement:any
 
     const JSX = (<div>
@@ -18,7 +18,7 @@ export default function input({children, inputType, inputWidthRem, inputCb, font
     </div>
     )
 
-    inputCb(inputElement)
+    inputCallback(inputElement)
 
     return JSX
 }

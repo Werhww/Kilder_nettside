@@ -1,5 +1,5 @@
 import { children } from 'solid-js';
-import style from './createCategory.module.css';
+import style from './createResource.module.css';
 
 interface props{
     children:any
@@ -8,7 +8,7 @@ interface props{
 export default function Module({children}:props) {
     return (
         <div class={style.body}>
-            <p class={style.title}>Create Category</p>
+            <p class={style.title}>Create Resource</p>
             {children}
         </div>
     )

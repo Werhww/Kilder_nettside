@@ -1,3 +1,5 @@
+import { createSignal} from 'solid-js'
+
 import style from './addResources.module.css';
 
 // Navigation Bar imports
@@ -19,16 +21,53 @@ import BackgroundBlur from '../../components/backgroundBlur/backgroundBlur'
 // Create category
 import CreateCategory from '../../components/createCategory/createCategory'
 
-export default function App() {
-  let createCategoryObject:any
-  let blur:any
+// Create resource
+import CreateResource from '../../components/createResource/createResource'
 
-  function openCreateCategory(){
-    blur.style.display = "flex"
-    createCategoryObject.style.display = "flex"
+export default function App() {
+  // Popup objects
+  const [category, setCategory] = createSignal(false)
+  const [blur, setBlur] = createSignal(false)
+  const [resource, setResource] = createSignal(false)
+
+  // Category inputs
+  let categoryInput:any
+  function categoryName(ref:any){
+    categoryInput = ref
   }
 
-  function openCreateResource(){}
+  function openCategory(){
+    setBlur(true)
+    setCategory(true)
+  }
+
+  function openResource(){
+    setBlur(true)
+    setResource(true)
+  }
+
+  function close(){
+    setBlur(false)
+    setCategory(false)
+    setResource(false)
+  }
+
+  async function createCategory(){
+    let data = {
+      "name": String(categoryInput.value)
+    }
+
+    let recources = await fetch('http://localhost:3030/createCategories', {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(data)
+    })
+    
+    close()
+  }
+
 
   return (
     <div>
@@ -38,12 +77,23 @@ export default function App() {
       </Navbar>
 
       <div class={style.buttons}>
-        <Button onclick={openCreateCategory}>Add Category</Button>
-        <Button onclick={openCreateResource}>Add Resource</Button>
+        <Button onclick={openCategory}>Add Category</Button>
+        <Button onclick={openResource}>Add Resource</Button>
       </div>
       
-      <BackgroundBlur ref={blur}></BackgroundBlur>
-      <CreateCategory ref={createCategoryObject}></CreateCategory>
+      {blur()?<BackgroundBlur ref={blur} onclick={close}></BackgroundBlur>:<></>}
+      
+      {category()?<CreateCategory>
+        <Input inputType='string' inputWidthRem={15} inputCallback={categoryName} fontSizeRem={1.5}>Name</Input>
+        <div class={style.popupButtons}>
+          <Button onclick={close}>Cancel</Button>
+          <Button onclick={createCategory}>Create</Button>
+        </div>
+      </CreateCategory>:<></>}
+
+      {resource()?<CreateResource>
+
+      </CreateResource>:<></>}
 
       <Footer iconLink='/'></Footer>
     </div>
