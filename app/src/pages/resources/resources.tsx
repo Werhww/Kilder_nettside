@@ -58,7 +58,8 @@ export default async function App() {
 
       <div class={style.list}>
         <List chooseCategory={fetchRecources} selectData={selectData} select={
-          <Select ref={selectObject}> 
+          <Select ref={selectObject} onChange={()=>{}}> 
+            <SelectItem value=''>Choose category</SelectItem>
             {itemdata.map((item:string[]) => {
               return <SelectItem value={item[1]}>{item[0]}</SelectItem>
             })}

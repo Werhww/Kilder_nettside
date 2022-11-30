@@ -1,4 +1,4 @@
-import { createSignal} from 'solid-js'
+import { createResource, createSignal} from 'solid-js'
 
 import style from './addResources.module.css';
 
@@ -9,22 +9,34 @@ import Navlink from '../../components/navbar/navlink/navlink';
 //Footer imports
 import Footer from '../../components/footer/footer'
 
-//Inputs
+// Componemets
 import Input from '../../components/input/input'
-
-//Button
 import Button from '../../components/button/button'
+import Select from '../../components/select/select'
+import SelectItem from '../../components/select/selectItem/selectItem'
 
-// Backgroud blur
+// Popups
 import BackgroundBlur from '../../components/backgroundBlur/backgroundBlur'
-
-// Create category
 import CreateCategory from '../../components/createCategory/createCategory'
-
-// Create resource
 import CreateResource from '../../components/createResource/createResource'
 
-export default function App() {
+async function fetchCategories() {
+  let categories = await fetch('http://localhost:3030/getAllCategories', {
+  method: "POST"
+  })
+
+  let selectDataJson = await categories.json()
+
+  return selectDataJson
+}
+
+
+export default async function App() {
+  const selectData = await fetchCategories()
+  const itemdata = selectData.data
+  let selectObject:any
+  let selectCategory:any
+
   // Popup objects
   const [category, setCategory] = createSignal(false)
   const [blur, setBlur] = createSignal(false)
@@ -35,6 +47,35 @@ export default function App() {
   function categoryName(ref:any){
     categoryInput = ref
   }
+
+  // Resource inputs
+  let title:any
+  function resourceTitle(ref:any){
+    title = ref
+  }
+
+  let websiteName:any
+  function recourcesWebsiteName(ref:any){
+    websiteName = ref
+  }
+
+  let websiteURL:any
+  function recourcesWebsiteUrl(ref:any){
+    websiteURL = ref
+  }
+
+  let videoTitle:any
+  function recourcesVideoTitle(ref:any){
+    videoTitle = ref
+  }
+
+  let videoUrl:any
+  function recourcesVideoUrl(ref:any){
+    videoUrl = ref
+  }
+
+  const [website, setWebsite] = createSignal(false)
+  const [video, setVideo] = createSignal(false)
 
   function openCategory(){
     setBlur(true)
@@ -68,6 +109,10 @@ export default function App() {
     close()
   }
 
+  async function createResource(){
+    console.log("fas")
+  }
+
 
   return (
     <div>
@@ -92,7 +137,57 @@ export default function App() {
       </CreateCategory>:<></>}
 
       {resource()?<CreateResource>
+        <div class={style.selectCategory}>
+          <p>Category:</p>
+          <Select ref={selectObject} onChange={()=>{}}>
+            {itemdata.map((item:string[]) => {
+                return <SelectItem value={item[1]}>{item[0]}</SelectItem>
+            })}
+          </Select>
+        </div>
+        <Input inputType='string' inputWidthRem={15} inputCallback={resourceTitle} fontSizeRem={1.5}>Resource Title</Input>
+        <Select ref={selectCategory} onChange={()=>{
+          let category = selectCategory.value
+          if(category == "website"){
+            setWebsite(true)
+            setVideo(false)
+          } else if (category == "video"){
+            setVideo(true)
+            setWebsite(false)
+          } else if (category == "both") {
+            setWebsite(true)
+            setVideo(true)
+          } else {
+            setWebsite(false)
+            setVideo(false)
+          }
+        }}>
+          <SelectItem value=''>Choose type</SelectItem>
+          <SelectItem value='website'>Website</SelectItem>
+          <SelectItem value='video'>Video</SelectItem>
+          <SelectItem value='both'>Both</SelectItem>
+        </Select>
 
+        {website()?<div class={style.resourceInfo}>
+          <p>Website</p>
+          <div class={style.resourceInputs}>
+            <Input inputType='string' inputWidthRem={10} inputCallback={recourcesWebsiteName} fontSizeRem={1}>Name</Input>
+            <Input inputType='string' inputWidthRem={10} inputCallback={recourcesWebsiteUrl} fontSizeRem={1}>Url</Input>
+          </div>
+        </div>:<></>}
+
+        {video()?<div class={style.resourceInfo}>
+          <p>Video</p>
+          <div class={style.resourceInputs}>
+            <Input inputType='string' inputWidthRem={10} inputCallback={recourcesVideoTitle} fontSizeRem={1}>Title</Input>
+            <Input inputType='string' inputWidthRem={10} inputCallback={recourcesVideoUrl} fontSizeRem={1}>Url</Input>
+          </div>
+        </div>:<></>}
+
+        <div class={style.popupButtons}>
+          <Button onclick={close}>Cancel</Button>
+          <Button onclick={createResource}>Create</Button>
+        </div>
       </CreateResource>:<></>}
 
       <Footer iconLink='/'></Footer>
