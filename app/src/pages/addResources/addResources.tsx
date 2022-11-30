@@ -35,7 +35,7 @@ export default async function App() {
   const selectData = await fetchCategories()
   const itemdata = selectData.data
   let selectObject:any
-  let selectCategory:any
+  let selectType:any
 
   // Popup objects
   const [category, setCategory] = createSignal(false)
@@ -49,27 +49,25 @@ export default async function App() {
   }
 
   // Resource inputs
+  let [recourceType, setRecourceType] = createSignal()
   let title:any
+  let websiteName:any
+  let websiteURL:any
+  let videoTitle:any
+  let videoUrl:any
+
   function resourceTitle(ref:any){
     title = ref
   }
-
-  let websiteName:any
   function recourcesWebsiteName(ref:any){
     websiteName = ref
   }
-
-  let websiteURL:any
   function recourcesWebsiteUrl(ref:any){
     websiteURL = ref
   }
-
-  let videoTitle:any
   function recourcesVideoTitle(ref:any){
     videoTitle = ref
   }
-
-  let videoUrl:any
   function recourcesVideoUrl(ref:any){
     videoUrl = ref
   }
@@ -95,10 +93,10 @@ export default async function App() {
 
   async function createCategory(){
     let data = {
-      "name": String(categoryInput.value)
+      "name": String(categoryInput.value),
     }
 
-    let recources = await fetch('http://localhost:3030/createCategories', {
+    let category = await fetch('http://localhost:3030/createCategories', {
     method: "POST",
     headers: {
       "content-type": "application/json"
@@ -109,10 +107,56 @@ export default async function App() {
     close()
   }
 
-  async function createResource(){
-    console.log("fas")
-  }
+  async function createResources(){
+    let data:any
+    
+    if(selectType.value == "website"){
+      data = {
+        "title": String(title.value),
+        "resourceType": String(selectType.value),
 
+        "categoryRef": String(selectObject.value), 
+
+        "websiteName": String(websiteName.value),
+        "websiteUrl": String(websiteURL.value)
+      }
+    } else if(selectType.value == "video"){
+      data = {
+        "title": String(title.value),
+        "resourceType": String(selectType.value),
+
+        "categoryRef": String(selectObject.value), 
+        
+        "videoTitle": String(videoTitle.value),
+        "videoUrl": String(videoUrl.value)
+      }
+    } else if(selectType.value == "both"){
+      data = {
+        "title": String(title.value),
+        "resourceType": String(selectType.value),
+
+        "categoryRef": String(selectObject.value), 
+        
+        "websiteName": String(websiteName.value),
+        "websiteUrl": String(websiteURL.value),
+
+        "videoTitle": String(videoTitle.value),
+        "videoUrl": String(videoUrl.value)
+      }
+    } else {
+      return
+    }
+
+    let recources = await fetch('http://localhost:3030/createResource', {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(data)
+    })
+    
+    close()
+  }
 
   return (
     <div>
@@ -146,8 +190,8 @@ export default async function App() {
           </Select>
         </div>
         <Input inputType='string' inputWidthRem={15} inputCallback={resourceTitle} fontSizeRem={1.5}>Resource Title</Input>
-        <Select ref={selectCategory} onChange={()=>{
-          let category = selectCategory.value
+        <Select ref={selectType} onChange={()=>{
+          let category = selectType.value
           if(category == "website"){
             setWebsite(true)
             setVideo(false)
@@ -186,7 +230,7 @@ export default async function App() {
 
         <div class={style.popupButtons}>
           <Button onclick={close}>Cancel</Button>
-          <Button onclick={createResource}>Create</Button>
+          <Button onclick={createResources}>Create</Button>
         </div>
       </CreateResource>:<></>}
 
