@@ -2,6 +2,7 @@ import { createSignal } from 'solid-js';
 
 import style from './listItem.module.css'
 import arrow from './arrowDown.svg'
+import trash from './trash.svg'
 
 
 interface props{
@@ -10,21 +11,16 @@ interface props{
     video:string
     websiteURL:string
     videoURL:string
+    id:string
+    deleteResource: (id:string)=>any
+    resourceRef:string
 }
 
-export default function listItem({title, website, video, websiteURL, videoURL}:props) {
-    const [getDisplay, setDisplay] = createSignal("none")
-    let itemInfoHidden = 'none'
+export default function listItem({title, website, video, websiteURL, videoURL, deleteResource, resourceRef}:props) {
+    const [itemInfo, setItemInfo] = createSignal(false)
 
     function onclick(){
-        if(itemInfoHidden === "none"){
-            setDisplay('flex')
-            itemInfoHidden = 'flex'
-        } else {
-            setDisplay('none')
-            itemInfoHidden = 'none'
-        }
-        
+        {itemInfo()?setItemInfo(false):setItemInfo(true)}
     }
 
     return (
@@ -35,21 +31,23 @@ export default function listItem({title, website, video, websiteURL, videoURL}:p
                     <p class={style.websiteItem}>{website}</p>
                     <p class={style.videoItem}>{video}</p>
                 </div>
-                <img class={style.arrow} src={arrow} onclick={onclick} alt=""/>
+                <img class={style.arrow} src={arrow} onclick={onclick}/>
+                <img class={style.trash} src={trash} onclick={() => deleteResource(resourceRef)}/>
             </div>
             
-
-            <div class={style.allItemInfo} style={`display: ${getDisplay()};`}>
+            {itemInfo()?
+            <div class={style.allItemInfo}>
                 <p class={style.titleItem}>{title}</p>
                 <div class={style.websiteItem}>
                     <p>{website}</p>
-                    <p>{websiteURL}</p>
+                    <a href={websiteURL}>{websiteURL}</a>
                 </div>
                 <div class={style.videoItem}>
                     <p>{video}</p>
-                    <p>{videoURL}</p>
+                    <a href={videoURL}>{videoURL}</a>
                 </div>
-            </div>
+            </div>:<></>}
+            
         </div>
     )
 }

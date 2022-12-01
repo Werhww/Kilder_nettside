@@ -48,3 +48,12 @@
     filter: invert(0%) sepia(0%) saturate(7480%) hue-rotate(107deg) brightness(98%) contrast(106%);
     cursor: pointer;
 }
+
+.deleteCategory{
+    padding-left: 12rem;
+    text-decoration: underline;
+}
+
+.deleteCategory:hover{
+    cursor: pointer;
+}

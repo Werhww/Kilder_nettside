@@ -34,8 +34,21 @@
 }
 
 .allItemInfo{
-    display: none;
+    display: flex;
 
     width: 80%;
     padding-top: 0.3rem;
+}
+
+.allItemInfo a{
+    color: black;
+}
+
+.trash{
+    height: 1.5rem;
+    width: 1.5rem;
+}
+
+.trash:hover{
+    cursor: pointer;
 }

@@ -4,3 +4,11 @@
 
     margin-top: 5rem;
 }
+
+.error{
+    padding-top: 2rem;
+
+    font-size: 2rem;
+    text-align: center;
+    color: red;
+}

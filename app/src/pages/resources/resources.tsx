@@ -32,9 +32,13 @@ export default async function App() {
   const selectData = await fetchCategories()
   const itemdata = selectData.data
   let selectObject:any
+  let trashObject:any
   const [list, setList] = createSignal([])
+  const [error, setError] = createSignal(false)
+  const [errorMsg, setErrorMsg] = createSignal('')
 
   async function fetchRecources(){
+    setError(false)
     let data = {"ref": `${selectObject.value}`}
 
     let recources = await fetch('http://localhost:3030/getAllResourceByCategoryRef', {
@@ -46,7 +50,29 @@ export default async function App() {
     })
     
     let listResources = await recources.json()
-    setList(listResources) 
+    setList(listResources)
+  }
+
+  function deleteCategory(){
+    if(selectObject.value === "error"){
+      setError(true)
+      setErrorMsg('Error: Choose a category')
+    } else{
+      let data = {"ref": `${selectObject.value}`}
+
+      let recources = fetch('http://localhost:3030/deleteCategory', {
+      method: "POST",
+      headers: {
+        "content-type": "application/json"
+      },
+      body: JSON.stringify(data)
+      })
+      setError(false)
+    }
+  }
+
+  function deleteResource(id:string){
+    console.log(id)
   }
 
   return (
@@ -56,26 +82,23 @@ export default async function App() {
         <Navlink active={false} link='/add'>Add Resource</Navlink>
       </Navbar>
 
+      {error()?<p class={style.error}>{errorMsg()}</p>:<></>}
+
       <div class={style.list}>
-        <List chooseCategory={fetchRecources} selectData={selectData} select={
+        <List chooseCategory={fetchRecources} selectData={selectData} deleteCategory={deleteCategory} select={
           <Select ref={selectObject} onChange={()=>{}}> 
-            <SelectItem value=''>Choose category</SelectItem>
+            <SelectItem value='error'>Choose category</SelectItem>
             {itemdata.map((item:string[]) => {
               return <SelectItem value={item[1]}>{item[0]}</SelectItem>
             })}
           </Select>
         }>
           <For each={list()}>{(item:any) =>
-            <ListItem title={`${item.data[0]}`} website={`${item.info.website.data[0][1]}`} websiteURL={`${item.info.website.data[0][0]}`} video={`${item.info.video.data[0][1]}`} videoURL={`${item.info.video.data[0][0]}`}></ListItem>  
+            <ListItem title={`${item.data[0]}`} website={`${item.info.website.data[0][1]}`} websiteURL={`${item.info.website.data[0][0]}`} video={`${item.info.video.data[0][1]}`} videoURL={`${item.info.video.data[0][0]}`} deleteResource={deleteResource}></ListItem>  
         }</For>
         </List>
       </div>
-
       <Footer iconLink='/'></Footer>
     </div>
   );
 }
-///return <ListItem title={item.data[0]} website={item.info.website.data[1]} websiteURL={item.info.website.data[0]} video={item.info.video.data[1]} videoURL={item.info.video.data[1]}></ListItem>  
-/* {getList().map((item:any) => {    
-  return <ListItem title={"item.data[0]"} website={"item.info.website.data[1]"} websiteURL={"item.info.website.data[0]"} video={"item.info.video.data[1]"} videoURL={"item.info.video.data[1]"}></ListItem>  
-})}*/
