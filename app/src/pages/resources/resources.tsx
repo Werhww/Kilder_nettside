@@ -53,14 +53,14 @@ export default async function App() {
     setList(listResources)
   }
 
-  function deleteCategory(){
+  async function deleteCategory(){
     if(selectObject.value === "error"){
       setError(true)
       setErrorMsg('Error: Choose a category')
     } else{
       let data = {"ref": `${selectObject.value}`}
 
-      let recources = fetch('http://localhost:3030/deleteCategory', {
+      let recources = await fetch('http://localhost:3030/deleteCategory', {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -69,10 +69,25 @@ export default async function App() {
       })
       setError(false)
     }
+
+    setTimeout(()=>{location.reload()}, 500)
   }
 
-  function deleteResource(id:string){
-    console.log(id)
+  async function deleteResource(id:string, type:string){
+    let data = {
+      'ref': `${id}`,
+      'type': `${type}`
+    }
+
+    let recources = await fetch('http://localhost:3030/deleteResource', {
+    method: "POST",
+    headers: {
+      "content-type": "application/json"
+    },
+    body: JSON.stringify(data)
+    })
+
+    setTimeout(()=>{location.reload()}, 500)
   }
 
   return (
@@ -94,7 +109,7 @@ export default async function App() {
           </Select>
         }>
           <For each={list()}>{(item:any) =>
-            <ListItem title={`${item.data[0]}`} website={`${item.info.website.data[0][1]}`} websiteURL={`${item.info.website.data[0][0]}`} video={`${item.info.video.data[0][1]}`} videoURL={`${item.info.video.data[0][0]}`} deleteResource={deleteResource}></ListItem>  
+            <ListItem title={`${item.data[0]}`} website={`${item.info.website.data[0][1]}`} websiteURL={`${item.info.website.data[0][0]}`} video={`${item.info.video.data[0][1]}`} videoURL={`${item.info.video.data[0][0]}`} deleteResource={deleteResource} resourceRef={item.data[2]} resourceType={item.data[1]}></ListItem>  
         }</For>
         </List>
       </div>

@@ -12,11 +12,12 @@ interface props{
     websiteURL:string
     videoURL:string
     id:string
-    deleteResource: (id:string)=>any
     resourceRef:string
+    resourceType:string
+    deleteResource: (id:string, type:string)=>any
 }
 
-export default function listItem({title, website, video, websiteURL, videoURL, deleteResource, resourceRef}:props) {
+export default function listItem({title, website, video, websiteURL, videoURL, deleteResource, resourceRef, resourceType}:props) {
     const [itemInfo, setItemInfo] = createSignal(false)
 
     function onclick(){
@@ -32,7 +33,7 @@ export default function listItem({title, website, video, websiteURL, videoURL, d
                     <p class={style.videoItem}>{video}</p>
                 </div>
                 <img class={style.arrow} src={arrow} onclick={onclick}/>
-                <img class={style.trash} src={trash} onclick={() => deleteResource(resourceRef)}/>
+                <img class={style.trash} src={trash} onclick={() => deleteResource(resourceRef, resourceType)}/>
             </div>
             
             {itemInfo()?

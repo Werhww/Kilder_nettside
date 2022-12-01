@@ -103,7 +103,8 @@ export default async function App() {
     },
     body: JSON.stringify(data)
     })
-    
+
+    setTimeout(()=>{location.reload()}, 500)
     close()
   }
 
