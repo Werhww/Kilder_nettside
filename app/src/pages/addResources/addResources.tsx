@@ -21,7 +21,7 @@ import CreateCategory from '../../components/createCategory/createCategory'
 import CreateResource from '../../components/createResource/createResource'
 
 async function fetchCategories() {
-  let categories = await fetch('http://localhost:3030/getAllCategories', {
+  let categories = await fetch('http://localhost:7557/getAllCategories', {
   method: "POST"
   })
 
@@ -96,7 +96,7 @@ export default async function App() {
       "name": String(categoryInput.value),
     }
 
-    let category = await fetch('http://localhost:3030/createCategories', {
+    let category = await fetch('http://localhost:7557/createCategories', {
     method: "POST",
     headers: {
       "content-type": "application/json"
@@ -148,7 +148,7 @@ export default async function App() {
       return
     }
 
-    let recources = await fetch('http://localhost:3030/createResource', {
+    let recources = await fetch('http://localhost:7557/createResource', {
     method: "POST",
     headers: {
       "content-type": "application/json"

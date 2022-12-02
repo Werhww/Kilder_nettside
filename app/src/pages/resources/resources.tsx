@@ -18,7 +18,7 @@ import SelectItem from '../../components/select/selectItem/selectItem'
 
 
 async function fetchCategories() {
-  let categories = await fetch('http://localhost:3030/getAllCategories', {
+  let categories = await fetch('http://localhost:7557/getAllCategories', {
   method: "POST"
   })
 
@@ -41,7 +41,7 @@ export default async function App() {
     setError(false)
     let data = {"ref": `${selectObject.value}`}
 
-    let recources = await fetch('http://localhost:3030/getAllResourceByCategoryRef', {
+    let recources = await fetch('http://localhost:7557/getAllResourceByCategoryRef', {
     method: "POST",
     headers: {
       "content-type": "application/json"
@@ -60,7 +60,7 @@ export default async function App() {
     } else{
       let data = {"ref": `${selectObject.value}`}
 
-      let recources = await fetch('http://localhost:3030/deleteCategory', {
+      let recources = await fetch('http://localhost:7557/deleteCategory', {
       method: "POST",
       headers: {
         "content-type": "application/json"
@@ -78,7 +78,7 @@ export default async function App() {
       'type': `${type}`
     }
 
-    let recources = await fetch('http://localhost:3030/deleteResource', {
+    let recources = await fetch('http://localhost:7557/deleteResource', {
     method: "POST",
     headers: {
       "content-type": "application/json"

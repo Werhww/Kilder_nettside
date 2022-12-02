@@ -2,7 +2,7 @@
 const express = require('express')
 const cors = require('cors')
 const app = express()
-const port = 3030
+const port = process.env.PORT || 7557
 
 const { 
   createResource,
