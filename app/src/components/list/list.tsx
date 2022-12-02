@@ -9,18 +9,16 @@ import OK from './ok.svg'
 interface props{
     children:any
     selectData:any
-    chooseCategory: ()=>any
     select: any
     deleteCategory: ()=>any
 }
 
-export default function recentList({children, selectData,chooseCategory, select, deleteCategory}:props) {
+export default function recentList({children, selectData, select, deleteCategory}:props) {
     return (
         <div class={style.list}>
             <div class={style.top}>
                 <p>Category</p>
                 {select}
-                <img class={style.OK} src={OK} onclick={chooseCategory}/>
                 <p class={style.deleteCategory} onClick={deleteCategory}>Delete Category</p>
             </div>
             <div class={style.info}>

@@ -68,9 +68,8 @@ export default async function App() {
       body: JSON.stringify(data)
       })
       setError(false)
+      setTimeout(()=>{location.reload()}, 500)
     }
-
-    setTimeout(()=>{location.reload()}, 500)
   }
 
   async function deleteResource(id:string, type:string){
@@ -100,8 +99,8 @@ export default async function App() {
       {error()?<p class={style.error}>{errorMsg()}</p>:<></>}
 
       <div class={style.list}>
-        <List chooseCategory={fetchRecources} selectData={selectData} deleteCategory={deleteCategory} select={
-          <Select ref={selectObject} onChange={()=>{}}> 
+        <List selectData={selectData} deleteCategory={deleteCategory} select={
+          <Select ref={selectObject} onChange={fetchRecources}> 
             <SelectItem value='error'>Choose category</SelectItem>
             {itemdata.map((item:string[]) => {
               return <SelectItem value={item[1]}>{item[0]}</SelectItem>

@@ -45,10 +45,27 @@
 }
 
 .trash{
+    transition: 0.49s;
     height: 1.5rem;
     width: 1.5rem;
 }
 
 .trash:hover{
     cursor: pointer;
+}
+
+.trashRotate{
+    transform: rotate(359deg);
+}
+
+.arrow{
+    transition: 0.3s;
+}
+
+.turnForwards{
+    transform: rotate(0deg);
+}
+
+.turnBackwards{
+    transform: rotate(-90deg);
 }

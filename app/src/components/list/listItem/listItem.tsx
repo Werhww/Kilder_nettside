@@ -19,9 +19,12 @@ interface props{
 
 export default function listItem({title, website, video, websiteURL, videoURL, deleteResource, resourceRef, resourceType}:props) {
     const [itemInfo, setItemInfo] = createSignal(false)
+    const [animation, setAnimation] = createSignal(style.turnBackwards)
+    const [trashAnimation, setTrashAnimation] = createSignal(style.trash)
 
     function onclick(){
-        {itemInfo()?setItemInfo(false):setItemInfo(true)}
+        itemInfo()?setItemInfo(false):setItemInfo(true)
+        itemInfo()?setAnimation(style.turnForwards):setAnimation(style.turnBackwards)
     }
 
     return (
@@ -32,8 +35,10 @@ export default function listItem({title, website, video, websiteURL, videoURL, d
                     <p class={style.websiteItem}>{website}</p>
                     <p class={style.videoItem}>{video}</p>
                 </div>
-                <img class={style.arrow} src={arrow} onclick={onclick}/>
-                <img class={style.trash} src={trash} onclick={() => deleteResource(resourceRef, resourceType)}/>
+                <img class={`${style.arrow} ${animation()}`}src={arrow} onclick={onclick}/>
+                <img class={`${style.trash} ${trashAnimation()}`} src={trash} onclick={() => {
+                    deleteResource(resourceRef, resourceType) 
+                    setTrashAnimation(style.trashRotate)}}/>
             </div>
             
             {itemInfo()?
@@ -41,11 +46,11 @@ export default function listItem({title, website, video, websiteURL, videoURL, d
                 <p class={style.titleItem}>{title}</p>
                 <div class={style.websiteItem}>
                     <p>{website}</p>
-                    <a href={websiteURL}>{websiteURL}</a>
+                    <a href={websiteURL} target='_blank'>{websiteURL}</a>
                 </div>
                 <div class={style.videoItem}>
                     <p>{video}</p>
-                    <a href={videoURL}>{videoURL}</a>
+                    <a href={videoURL} target='_blank'>{videoURL}</a>
                 </div>
             </div>:<></>}
             
